@@ -23,4 +23,6 @@ export class UserEntity {
     @ManyToOne(type => AccountEntity, account => account.user)
     @JoinColumn({ name: 'accountId'})
     account: UserEntity[];
+
+    @ManyToOne(type => RecommendationListEntity, rec => rec.user)
 }
