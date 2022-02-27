@@ -1,9 +1,31 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ModelModule } from './model/model.module';
+
 
 @Module({
-  imports: [],
+  imports: [
+    // ------------------- ORM config --------------------- //
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5433,
+      username: 'user',
+      password: 'pass',
+      database: 'netflix',
+      autoLoadEntities: true,
+      synchronize: true,
+      cli: {
+        migrationsDir: 'db.migration',
+        entitiesDir: 'src/model/user/user.entity.ts',
+      },
+    }),
+    ModelModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
