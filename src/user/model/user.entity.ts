@@ -19,6 +19,7 @@ export class UserEntity {
     readonly username: string;
     @ApiProperty({ example: false, description: "account restrictions"})
     @Column()
+    readonly is_child: boolean;
 
     @ManyToOne(type => AccountEntity, account => account.user)
     @JoinColumn({ name: 'accountId'})
