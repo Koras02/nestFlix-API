@@ -2,6 +2,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import { AccountEntity } from '../../account/model/account.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { RecommandationListEntity } from '../../recommendations/model/recommendationList.entity'
 
 @Entity()
 export class UserEntity {
@@ -10,7 +11,7 @@ export class UserEntity {
     readonly id: number;
     @ApiProperty({ example: "2021-01-01", description: "Creation date of user"})
     @Column()
-    readonly create_at: Date;
+    readonly created_at: Date;
     @ApiProperty({ example: "Path/of/image", description: "path for user icon"})
     @Column()
     readonly icon_url: string;
@@ -25,5 +26,21 @@ export class UserEntity {
     @JoinColumn({ name: 'accountId'})
     account: UserEntity[];
 
-    @ManyToOne(type => RecommendationListEntity, rec => rec.user)
+    @ManyToOne(type => RecommandationListEntity, rec => rec.user)
+    @JoinColumn({name: "listId", referencedColumnName: "id"})
+    rec: RecommandationListEntity;
+
+    constructor(
+        id: number,
+        created_at: Date,
+        icon_url: string,
+        username: string,
+        is_child: boolean,
+    ) {
+        this.id = id;
+        this.created_at = created_at;
+        this.icon_url = icon_url;
+        this.username = username;
+        this.is_child = is_child;
+    }
 }

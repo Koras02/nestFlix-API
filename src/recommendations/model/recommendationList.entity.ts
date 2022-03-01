@@ -24,4 +24,10 @@ export class RecommandationListEntity {
         name: "video_recommendation_list",
     })
     video: VideoEntity[]
+
+    constructor (
+      id: number,
+    ) {
+      this.id = id;
+    }
 }
