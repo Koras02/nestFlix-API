@@ -9,9 +9,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { JoinColumn } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
 import { PlanEntity } from '../../plan/model/plan.entity';
+import { JoinColumn } from 'typeorm';
+import { UserEntity } from 'src/user/model/user.entity';
+import { VideoEntity } from 'src/video/model/video.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
 export class AccountEntity {
@@ -62,4 +64,33 @@ export class AccountEntity {
 
   @OneToMany((type) => UserEntity, (user) => user.account)
   user: UserEntity;
+
+  @ApiProperty({ description: "Account Videos" })
+  @ManyToMany( type => VideoEntity, video => video.account)
+  @JoinTable({
+    name: "video_account", // 
+  })
+  video: VideoEntity[]
+
+  constructor (
+    id: number,
+    created_at: Date,
+    next_bill_date: Date,
+    username: string,
+    password: string,
+    first_name: string,
+    last_name: string,
+    country: string,
+    email: string,
+  ) {
+    this.id = id;
+    this.created_at = created_at;
+    this.next_bill_date = next_bill_date;
+    this.username = username;
+    this.password = password;
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.country = country;
+    this.email = email;
+  }
 }
